@@ -1,0 +1,204 @@
+<app-breadcrumb></app-breadcrumb>
+
+<div class="quotation-form-container">
+  <h2 class="form-title">Add Quotation</h2>
+
+  <form [formGroup]="quotationForm" class="quotation-form" (ngSubmit)="onSubmit()">
+    <!-- Main Form Fields -->
+    <div class="form-section">
+      <h3 class="section-title">Quotation Details</h3>
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Customer Name</mat-label>
+          <input matInput formControlName="customerName">
+          <mat-error *ngIf="quotationFormControls['customerName']?.hasError('required')">
+            Customer Name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Quotation Number</mat-label>
+          <input matInput formControlName="quotationNumber" readonly>
+          <mat-icon matSuffix>description</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>State</mat-label>
+          <mat-select formControlName="state">
+            <mat-option *ngFor="let stateOption of states" [value]="stateOption">
+              {{ stateOption }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="quotationFormControls['state']?.hasError('required')">
+            State is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="form-field">
+          <mat-label>Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="quotationFormControls['date']?.hasError('required')">
+            Date is required
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Add Item Section -->
+    <div class="form-section">
+      <h3 class="section-title">Add Item</h3>
+      <div class="add-item-table-wrapper" [formGroup]="itemForm">
+        <table class="add-item-table">
+        <thead>
+          <tr>
+            <th>Item Name</th>
+            <th>Quantity</th>
+            <th>Item Price</th>
+            <th>GST (%)</th>
+            <th>Discount (%)</th>
+            <th>Total</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <mat-form-field appearance="outline" class="table-form-field">
+                <input matInput formControlName="itemName" placeholder="Item Name">
+                <mat-error *ngIf="itemFormControls['itemName']?.hasError('required')">
+                  Required
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="table-form-field">
+                <input matInput type="number" formControlName="quantity" min="1" placeholder="Qty">
+                <mat-error *ngIf="itemFormControls['quantity']?.hasError('required')">
+                  Required
+                </mat-error>
+                <mat-error *ngIf="itemFormControls['quantity']?.hasError('min')">
+                  Min: 1
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="table-form-field">
+                <input matInput type="number" formControlName="itemPrice" min="0" step="0.01" placeholder="Price">
+                <mat-error *ngIf="itemFormControls['itemPrice']?.hasError('required')">
+                  Required
+                </mat-error>
+                <mat-error *ngIf="itemFormControls['itemPrice']?.hasError('min')">
+                  Min: 0
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="table-form-field">
+                <mat-select formControlName="gst" placeholder="GST">
+                  <mat-option *ngFor="let gstOption of gstOptions" [value]="gstOption">
+                    {{ gstOption }}%
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="itemFormControls['gst']?.hasError('required')">
+                  Required
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="table-form-field">
+                <input matInput type="number" formControlName="discount" min="0" max="100" step="0.01" placeholder="Discount">
+                <mat-error *ngIf="itemFormControls['discount']?.hasError('min')">
+                  Min: 0
+                </mat-error>
+                <mat-error *ngIf="itemFormControls['discount']?.hasError('max')">
+                  Max: 100
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="table-form-field">
+                <input matInput [value]="itemTotal | number:'1.2-2'" readonly placeholder="Total">
+                <span matPrefix>₹&nbsp;</span>
+              </mat-form-field>
+            </td>
+            <td>
+              <button type="button" mat-raised-button color="primary" (click)="addItem()" class="add-item-btn">
+                <mat-icon>add</mat-icon>
+                Add
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- Items Table -->
+    <div class="form-section" *ngIf="items.length > 0">
+      <h3 class="section-title">Items List</h3>
+      <table mat-table [dataSource]="items" class="items-table">
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef>Item Name</th>
+          <td mat-cell *matCellDef="let item">{{ item.itemName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="quantity">
+          <th mat-header-cell *matHeaderCellDef>Quantity</th>
+          <td mat-cell *matCellDef="let item">{{ item.quantity }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="itemPrice">
+          <th mat-header-cell *matHeaderCellDef>Price</th>
+          <td mat-cell *matCellDef="let item">₹{{ item.itemPrice | number:'1.2-2' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="gst">
+          <th mat-header-cell *matHeaderCellDef>GST (%)</th>
+          <td mat-cell *matCellDef="let item">{{ item.gst }}%</td>
+        </ng-container>
+
+        <ng-container matColumnDef="discount">
+          <th mat-header-cell *matHeaderCellDef>Discount (%)</th>
+          <td mat-cell *matCellDef="let item">{{ item.discount }}%</td>
+        </ng-container>
+
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let item">₹{{ item.total | number:'1.2-2' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let item; let i = index">
+            <button mat-icon-button color="warn" (click)="removeItem(i)" aria-label="Remove item">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <div class="grand-total">
+        <strong>Grand Total: ₹{{ getGrandTotal() | number:'1.2-2' }}</strong>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button type="submit" mat-raised-button color="primary" class="submit-button" 
+              [disabled]="quotationForm.invalid || items.length === 0">
+        <mat-icon>save</mat-icon>
+        Save Quotation
+      </button>
+      <button type="button" mat-button (click)="resetItemForm()">
+        Reset Item
+      </button>
+    </div>
+  </form>
+</div>

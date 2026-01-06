@@ -1,0 +1,22 @@
+<mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #drawer="matSidenav" class="sidenav" mode="side" fixedInViewport fixedTopGap="64" opened>
+        <app-sidenav></app-sidenav>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <mat-toolbar color="primary" class="app-toolbar">
+            <button mat-icon-button (click)="drawer.toggle()" aria-label="Toggle sidenav">
+                <mat-icon>menu</mat-icon>
+            </button>
+            <span>Inventory System</span>
+            <span class="example-spacer"></span>
+            <button mat-icon-button class="example-icon favorite-icon" aria-label="Favorite">
+                <mat-icon>account_circle</mat-icon>
+            </button>
+        </mat-toolbar>
+
+        <div class="content">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,13 @@
+<nav class="app-breadcrumb" aria-label="breadcrumb">
+  <ol class="padding-y-10 font-18px">
+    <li *ngFor="let s of segments; let last = last" [class.active]="last">
+      <ng-container *ngIf="!last">
+        <a [routerLink]="s.url">{{ s.label }}</a>
+        <span class="sep">/</span>
+      </ng-container>
+      <ng-container *ngIf="last">
+        <span class="current">{{ s.label }}</span>
+      </ng-container>
+    </li>
+  </ol>
+</nav>

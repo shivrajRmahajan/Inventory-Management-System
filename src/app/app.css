@@ -1,0 +1,124 @@
+:root {
+	--sidenav-width: 250px;
+	--toolbar-height-desktop: 64px;
+	--toolbar-height-mobile: 56px;
+}
+
+.sidenav-container {
+	height: 100vh;
+	padding-top: var(--toolbar-height-desktop);
+}
+
+.sidenav {
+	width: var(--sidenav-width);
+}
+
+.content {
+	padding: 70px 16px 16px;
+}
+
+.example-spacer {
+	flex: 1 1 auto;
+}
+
+.app-toolbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 10;
+}
+
+/* small screens: make the sidenav over the content and adjust toolbar gap */
+@media (max-width: 768px) {
+	:root {
+		--toolbar-height-desktop: var(--toolbar-height-mobile);
+	}
+
+	.sidenav {
+		width: 200px;
+	}
+}
+
+/* visual styles for toolbar and sidenav to make them recognizable */
+.app-toolbar {
+	background: linear-gradient(90deg, #0d47a1, #1976d2);
+	color: #fff;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.app-toolbar mat-icon {
+	color: rgba(255,255,255,0.95);
+}
+
+.sidenav {
+	background: #ffffff;
+	border-right: 1px solid rgba(0,0,0,0.08);
+	box-shadow: 2px 0 6px rgba(0,0,0,0.04);
+}
+
+.sidenav-header {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 16px;
+}
+.sidenav-manu {
+	display: flex;
+	align-items: center;
+}
+
+.sidenav-logo {
+	font-size: 32px;
+	color: #1976d2;
+}
+
+.sidenav-title {
+	font-weight: 600;
+	font-size: 16px;
+	color: #222;
+}
+
+.mat-nav-list .mat-list-item {
+	border-radius: 4px;
+	margin: 6px 8px;
+}
+
+.mat-nav-list .mat-list-item:hover {
+	background: rgba(25, 118, 210, 0.06);
+}
+
+.mat-nav-list a.active {
+	background: linear-gradient(90deg, rgba(25,118,210,0.12), rgba(25,118,210,0.06));
+	color: #0d47a1;
+}
+
+.mat-nav-list mat-icon {
+	color: rgba(0,0,0,0.6);
+}
+
+.nav-text {
+	margin-left: 8px;
+}
+
+/* Ensure icon and text are vertically aligned and spaced consistently */
+.mat-nav-list .mat-list-item {
+	display: flex;
+	align-items: center !important;
+	gap: 12px;
+	padding: 8px 12px;
+}
+
+.mat-nav-list .mat-list-item .mat-icon[matListIcon],
+.mat-nav-list .mat-list-item mat-icon[matListIcon] {
+	font-size: 20px;
+	width: 24px;
+	height: 24px;
+	display: inline-flex;
+	align-items: center !important;
+	justify-content: center;
+}
+
+.mat-nav-list .mat-list-item .nav-text {
+	line-height: 1;
+}
