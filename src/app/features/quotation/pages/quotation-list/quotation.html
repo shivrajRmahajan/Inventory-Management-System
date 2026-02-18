@@ -1,4 +1,10 @@
-<app-breadcrumb></app-breadcrumb>
+<div class="header-row">
+  <app-breadcrumb></app-breadcrumb>
+  <button mat-flat-button class="bg-blue" [routerLink]="'create'">
+    <mat-icon class="close-icon">add</mat-icon>
+    Add Quotation
+  </button>
+</div>
 <div class="table-actions">
   <div class="search-container">
     <mat-icon matPrefix>search</mat-icon>
@@ -7,10 +13,6 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <button mat-flat-button class="bg-blue" [routerLink]="'/add-quotation'" (click)="onAdd()">
-    <mat-icon class="close-icon">add</mat-icon>
-    Add Quotation
-  </button>
 </div>
 
 <!-- breadcrumb component renders here -->

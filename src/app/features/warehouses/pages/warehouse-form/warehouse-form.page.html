@@ -1,1 +1,134 @@
-<p>warehouse-form.page works!</p>
+<div class="page-container">
+    <div class="header-section">
+        <app-breadcrumb></app-breadcrumb>
+    </div>
+
+    <div class="form-card">
+        <div class="card-header">
+            <h2 class="card-title">Add New Warehouse</h2>
+            <p class="card-subtitle">Enter definitions and contact details for the new warehouse location.</p>
+        </div>
+
+        <form nz-form [formGroup]="warehouseForm" (ngSubmit)="onSubmit()" nzLayout="vertical">
+
+            <!-- General Information Section -->
+            <div class="form-grid">
+                <label class="section-label">General Information</label>
+
+                <nz-form-item class="full-width">
+                    <nz-form-label nzRequired>Warehouse / Branch Name</nz-form-label>
+                    <nz-form-control nzErrorTip="Name is required">
+                        <input nz-input formControlName="name" placeholder="e.g. Central Distribution Hub" />
+                    </nz-form-control>
+                </nz-form-item>
+
+                <div class="checkbox-group full-width">
+                    <label nz-checkbox formControlName="is_warehouse">
+                        Is Warehouse? <span class="text-caption">( Uncheck for Branch )</span>
+                    </label>
+
+                    <label nz-checkbox formControlName="is_headquarters">
+                        Is Headquarters?
+                    </label>
+                </div>
+
+                <!-- Contact Details Section -->
+                <label class="section-label">Contact Details</label>
+
+                <nz-form-item>
+                    <nz-form-label nzRequired>Email Address</nz-form-label>
+                    <nz-form-control [nzErrorTip]="emailErrorTpl">
+                        <nz-input-group [nzSuffix]="emailSuffixIcon">
+                            <input nz-input formControlName="email" placeholder="contact@example.com" />
+                        </nz-input-group>
+                        <ng-template #emailSuffixIcon>
+                            <nz-icon nzType="mail" nzTheme="outline" class="input-suffix-icon"></nz-icon>
+                        </ng-template>
+                        <ng-template #emailErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">Email is required</ng-container>
+                            <ng-container *ngIf="control.hasError('email')">Invalid email address</ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzRequired>Mobile Number</nz-form-label>
+                    <nz-form-control [nzErrorTip]="mobileErrorTpl">
+                        <nz-input-group [nzSuffix]="phoneSuffixIcon">
+                            <input nz-input formControlName="mobile" placeholder="9876543210" />
+                        </nz-input-group>
+                        <ng-template #phoneSuffixIcon>
+                            <nz-icon nzType="phone" nzTheme="outline" class="input-suffix-icon"></nz-icon>
+                        </ng-template>
+                        <ng-template #mobileErrorTpl let-control>
+                            <ng-container *ngIf="control.hasError('required')">Mobile is required</ng-container>
+                            <ng-container *ngIf="control.hasError('pattern')">Must be 10 digits</ng-container>
+                        </ng-template>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <!-- Address Section -->
+                <label class="section-label">Location Address</label>
+
+                <nz-form-item class="full-width">
+                    <nz-form-label nzRequired>Street Address</nz-form-label>
+                    <nz-form-control nzErrorTip="Address is required">
+                        <textarea nz-input formControlName="address" [nzAutosize]="{ minRows: 3, maxRows: 5 }"
+                            placeholder="Plot No, Street, Landmark"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzRequired>State</nz-form-label>
+                    <nz-form-control nzErrorTip="State is required">
+                        <nz-select formControlName="state" nzPlaceHolder="Select State" nzShowSearch>
+                            <nz-option *ngFor="let state of states" [nzValue]="state" [nzLabel]="state"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <nz-form-item>
+                    <nz-form-label nzRequired>Country</nz-form-label>
+                    <nz-form-control nzErrorTip="Country is required">
+                        <nz-select formControlName="country" nzPlaceHolder="Select Country" nzShowSearch>
+                            <nz-option *ngFor="let country of countries" [nzValue]="country"
+                                [nzLabel]="country"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
+                <!-- Branding Section -->
+                <label class="section-label">Branding</label>
+
+                <div class="full-width">
+                    <div class="file-upload-container" (click)="fileInput.click()">
+                        <input #fileInput type="file" class="file-input" (change)="onFileSelected($event)"
+                            accept="image/*">
+
+                        <div class="upload-content" *ngIf="!imagePreview">
+                            <nz-icon nzType="cloud-upload" nzTheme="outline" class="upload-icon"></nz-icon>
+                            <span class="font-medium text-gray-700">Click to upload logo</span>
+                            <span class="text-sm text-gray-500">SVG, PNG, JPG or GIF (max. 2MB)</span>
+                        </div>
+
+                        <div class="preview-content" *ngIf="imagePreview">
+                            <img [src]="imagePreview" class="preview-image" alt="Logo Preview">
+                            <div class="text-sm text-blue-600 mt-2 font-medium">Click to change</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button nz-button nzType="default" nzDanger type="button" class="btn-large"
+                    (click)="onCancel()">Cancel</button>
+                <button nz-button nzType="primary" type="submit" class="btn-large" [disabled]="warehouseForm.invalid">
+                    <nz-icon nzType="save" nzTheme="outline"></nz-icon>
+                    Save Warehouse
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>

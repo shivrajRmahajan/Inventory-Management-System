@@ -1,22 +1,26 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection, isDevMode } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideStore } from '@ngrx/store';
-import { provideEffects } from '@ngrx/effects';
-import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { provideRouterStore } from '@ngrx/router-store';
+import { provideNzIcons } from 'ng-zorro-antd/icon';
+import {
+  CloudUploadOutline,
+  SaveOutline,
+  MailOutline,
+  PhoneOutline
+} from '@ant-design/icons-angular/icons';
+
+const icons = [CloudUploadOutline, SaveOutline, MailOutline, PhoneOutline];
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideAnimations(),
+    provideHttpClient(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    provideStore(),
-    provideEffects(),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideRouterStore()
-]
+    provideNzIcons(icons)
+  ]
 };

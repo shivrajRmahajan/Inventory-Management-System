@@ -22,6 +22,12 @@
               }
             ],
             "styles": [
+              "node_modules/ng-zorro-antd/style/index.min.css",
+              "node_modules/ng-zorro-antd/button/style/index.min.css",
+              "node_modules/ng-zorro-antd/input/style/index.min.css",
+              "node_modules/ng-zorro-antd/form/style/index.min.css",
+              "node_modules/ng-zorro-antd/checkbox/style/index.min.css",
+              "node_modules/ng-zorro-antd/select/style/index.min.css",
               "src/styles/custom-theme.scss",
               "src/styles/styles.css"
             ]
@@ -31,8 +37,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1MB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -45,7 +51,13 @@
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"

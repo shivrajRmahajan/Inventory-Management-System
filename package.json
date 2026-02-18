@@ -37,6 +37,7 @@
     "@ngrx/store": "^20.1.0",
     "@ngrx/store-devtools": "^20.1.0",
     "bootstrap": "^5.3.8",
+    "ng-zorro-antd": "^20.4.4",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

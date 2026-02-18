@@ -1,0 +1,15 @@
+/* Button styles */
+.bg-blue {
+    background-color: #1976d2 !important;
+    color: white !important;
+}
+
+/* Add spacing between icon and text */
+.bg-blue mat-icon {
+    margin-right: 8px;
+}
+
+/* Fix alignment of breadcrumb in the flex row */
+::ng-deep app-breadcrumb .app-breadcrumb {
+    margin-bottom: 0 !important;
+}
